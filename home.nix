@@ -6,6 +6,7 @@ let
   configs = {
     qtile = "qtile";
     nvim = "nvim";
+    niri = "niri";
   };
 in
 
@@ -20,7 +21,9 @@ in
       btw = "echo Doing this all by hand, btw";
     };
   };
-  
+
+ # programs.niri.enable = true;
+
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";
     recursive = true;
