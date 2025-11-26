@@ -12,6 +12,9 @@
   networking.hostName = "hodur"; 
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  hardware.bluetooth.enable = true;
+  services.tuned.enable = true;
+  services.upower.enable = true;
 
   time.timeZone = "America/Chicago";
 
