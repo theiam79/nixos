@@ -36,5 +36,7 @@ in
     nixpkgs-fmt
     nodejs
     gcc
+
+    bitwarden-desktop
   ];
 }
