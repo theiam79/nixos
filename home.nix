@@ -21,6 +21,9 @@ in
       btw = "echo Doing this all by hand, btw";
     };
   };
+  programs.fuzzel = {
+    enable = true;
+  };
 
  # programs.niri.enable = true;
 
@@ -28,6 +31,10 @@ in
     source = create_symlink "${dotfiles}/${subpath}";
     recursive = true;
   }) configs;
+
+  home.sessionVariables = {
+    SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock";
+  };
 
   home.packages = with pkgs; [
     neovim
