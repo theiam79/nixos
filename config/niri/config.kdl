@@ -273,6 +273,7 @@ layout {
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "noctalia-shell"
+spawn-at-startup "bitwarden-desktop"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -325,6 +326,12 @@ window-rule {
     // You can get away with just app-id="wezterm" if you want.
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
+}
+
+// Open Bitwarden as floating for easy SSH agent approval access.
+window-rule {
+    match app-id=r#"Bitwarden"#
+    open-floating true
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
