@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.hardware.windowsBoot;
 in
@@ -14,13 +14,11 @@ in
       fsType = "vfat";
     };
 
-    boot.loader.systemd-boot.extraEntries = {
-      "windows.conf" = ''
-        title     Windows
-        sort-key  0-windows
-        efi       /efi/windows/EFI/Microsoft/Boot/bootmgfw.efi
-      '';
-    };
+    # Copy Windows bootloader to the NixOS ESP so systemd-boot auto-detects it.
+    # Re-syncs on every rebuild in case Windows updates its bootloader.
+    system.activationScripts.syncWindowsBootloader = ''
+      ${pkgs.rsync}/bin/rsync -a /boot/efi/windows/EFI/Microsoft /boot/EFI/
+    '';
 
     boot.loader.systemd-boot.configurationLimit = 10;
     boot.loader.timeout = 5;
