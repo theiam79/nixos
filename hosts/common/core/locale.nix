@@ -1,0 +1,4 @@
+{ ... }:
+{
+  time.timeZone = "America/Chicago";
+}
