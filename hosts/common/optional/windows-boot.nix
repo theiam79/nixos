@@ -17,10 +17,12 @@ in
     boot.loader.systemd-boot.extraEntries = {
       "windows.conf" = ''
         title     Windows
+        sort-key  0-windows
         efi       /efi/windows/EFI/Microsoft/Boot/bootmgfw.efi
       '';
     };
 
+    boot.loader.systemd-boot.configurationLimit = 10;
     boot.loader.timeout = 5;
   };
 }
