@@ -1,8 +1,9 @@
 {
-  description = "A basic NixOS setup from scratch";
+  description = "NixOS configuration";
+
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    
+
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,23 +15,13 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
-    nixosConfigurations.hodur = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        ./configuration.nix
-        ./noctalia.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.theiam79 = import ./home.nix;
-            backupFileExtension = "backup";
-         };
-        }
-      ];
+  outputs = inputs@{ self, nixpkgs, ... }:
+    let
+      lib = import ./lib { inherit inputs; };
+    in
+    {
+      nixosConfigurations = {
+        hodur = lib.mkHost "hodur" "x86_64-linux";
+      };
     };
-  };
 }
