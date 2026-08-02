@@ -17,6 +17,7 @@
       audio
 
       niri
+      firefox
       battery
       windowsBoot
     ];

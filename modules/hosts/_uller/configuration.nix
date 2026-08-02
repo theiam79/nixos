@@ -15,6 +15,7 @@
       unfree
 
       niri
+      firefox
       nvidia
       steam
 

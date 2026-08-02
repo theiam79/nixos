@@ -11,6 +11,7 @@
       autoRepeatInterval = 35;
     };
     services.displayManager.ly.enable = true;
+    services.libinput.enable = true;
 
     environment.systemPackages = with pkgs; [
       alacritty
