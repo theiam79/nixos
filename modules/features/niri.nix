@@ -20,20 +20,34 @@
   };
 
   # Config stays an out-of-store symlink so it can be edited and reloaded
-  # without a rebuild. config.kdl is shared; host.kdl is per-machine and
-  # pulled in by `include optional=true "host.kdl"` at the end of config.kdl.
+  # without a rebuild.
+  #
+  # The whole directory is linked as ONE symlink, deliberately. Declaring
+  # individual entries (niri/config.kdl, niri/host.kdl) makes home-manager
+  # collapse ~/.config/niri into a single read-only store directory, because
+  # it symlinks the topmost directory it fully owns -- which also breaks
+  # relative includes, since they then resolve inside the store.
+  #
+  # host.kdl therefore has to live inside the repo. It is gitignored and
+  # created per-machine by the activation script below, pointing at this
+  # host's file. config.kdl ends with `include optional=true "host.kdl"`.
   #
   # Note: reads osConfig, so this assumes home-manager runs as a NixOS module.
-  flake.homeModules.niri = { config, osConfig, ... }:
+  flake.homeModules.niri = { config, lib, osConfig, ... }:
     let
-      repo = "${config.home.homeDirectory}/nixos";
-      link = config.lib.file.mkOutOfStoreSymlink;
+      niriDir = "${config.home.homeDirectory}/nixos/config/niri";
     in
     {
       programs.fuzzel.enable = true;
 
-      xdg.configFile."niri/config.kdl".source = link "${repo}/config/niri/config.kdl";
-      xdg.configFile."niri/host.kdl".source =
-        link "${repo}/config/niri/hosts/${osConfig.networking.hostName}.kdl";
+      xdg.configFile."niri".source = config.lib.file.mkOutOfStoreSymlink niriDir;
+
+      home.activation.niriHostConfig =
+        lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          if [ -d ${lib.escapeShellArg niriDir} ]; then
+            run ln -sfn "hosts/${osConfig.networking.hostName}.kdl" \
+              ${lib.escapeShellArg "${niriDir}/host.kdl"}
+          fi
+        '';
     };
 }

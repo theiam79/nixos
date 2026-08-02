@@ -1,3 +1,7 @@
 # TODO: bring qtile and nvim configs into this repo later
 config/qtile/
 config/nvim/
+
+# Per-machine symlink to config/niri/hosts/<hostname>.kdl, created on
+# home-manager activation. Machine-specific, so never committed.
+config/niri/host.kdl
