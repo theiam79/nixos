@@ -3,7 +3,10 @@
   flake.homeModules.noctalia = {
     imports = [ inputs.noctalia.homeModules.default ];
 
-    programs.noctalia-shell = {
+    # Renamed from programs.noctalia-shell upstream. Settings are now written
+    # as TOML to ~/.config/noctalia/config.toml (was JSON), and validateConfig
+    # (default true) checks them against the real schema at build time.
+    programs.noctalia = {
       enable = true;
       settings = {
         bar = {
