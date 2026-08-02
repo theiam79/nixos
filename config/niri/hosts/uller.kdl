@@ -1,0 +1,9 @@
+// uller (desktop) — host-specific niri config.
+// Symlinked to ~/.config/niri/host.kdl and included from config.kdl.
+// Editable in place: change, save, niri reloads. No rebuild needed.
+
+// Fill in after install — `niri msg outputs` prints the connector names.
+// output "DP-1" {
+//     mode "2560x1440@165.000"
+//     position x=0 y=0
+// }
