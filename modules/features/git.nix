@@ -3,8 +3,10 @@
   flake.homeModules.git = {
     programs.git = {
       enable = true;
-      userName = "theiam79";
-      userEmail = "theiam79@gmail.com";
+      settings.user = {
+        name = "theiam79";
+        email = "theiam79@gmail.com";
+      };
     };
   };
 }
