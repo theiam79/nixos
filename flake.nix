@@ -2,10 +2,13 @@
   description = "NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -15,13 +18,5 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, ... }:
-    let
-      lib = import ./lib { inherit inputs; };
-    in
-    {
-      nixosConfigurations = {
-        hodur = lib.mkHost "hodur" "x86_64-linux";
-      };
-    };
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }

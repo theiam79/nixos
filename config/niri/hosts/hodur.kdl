@@ -1,0 +1,5 @@
+// hodur (laptop) — host-specific niri config.
+// Symlinked to ~/.config/niri/host.kdl and included from config.kdl.
+// Editable in place: change, save, niri reloads. No rebuild needed.
+
+// Laptop panel uses niri's defaults; add `output "eDP-1" { ... }` here to override.
