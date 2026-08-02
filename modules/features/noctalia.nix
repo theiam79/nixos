@@ -37,7 +37,9 @@
               }
             ];
             right = [
-              { id = "ScreenRecorder"; }
+              # ScreenRecorder removed: its portal-based capture needs a
+              # working xdg-desktop-portal ScreenCast backend, which niri
+              # does not get reliably at startup (niri#2399). Unused anyway.
               { id = "Tray"; }
               { id = "Battery"; }
               { id = "Volume"; }
