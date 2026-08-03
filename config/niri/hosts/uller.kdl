@@ -6,11 +6,14 @@
 // which SWAPS their logical width and height for positioning:
 //
 //   DP-7      1920x1080 rotated -> logical 1080 x 1920
-//   HDMI-A-3  4096x2160 normal  -> logical 4096 x 2160
+//   HDMI-A-3  3840x2160 normal  -> logical 3840 x 2160
 //   DP-8      2560x1440 rotated -> logical 1440 x 2560
 //
-// x accumulates using rotated widths: 0, then 1080, then 1080+4096 = 5176.
+// x accumulates using rotated widths: 0, then 1080, then 1080+3840 = 4920.
 // y centres each panel against the tallest (DP-8, 2560 logical).
+//
+// Keep the outputs touching. niri only moves the cursor between directly
+// adjacent outputs, so a gap in x silently breaks pointer traversal.
 //
 // If a rotated screen comes up upside down, change "90" to "270" on it --
 // niri rotates counter-clockwise, so which one you want depends on which way
@@ -23,12 +26,12 @@ output "DP-7" {
 }
 
 output "HDMI-A-3" {
-    mode "4096x2160@119.880"
+    mode "3840x2160@119.880"
     position x=1080 y=200
 }
 
 output "DP-8" {
     mode "2560x1440@59.951"
     transform "90"
-    position x=5176 y=0
+    position x=4920 y=0
 }
