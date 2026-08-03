@@ -19,6 +19,8 @@
       firefox
       nvidia
       steam
+      rgb
+      logitech
 
       nixLd
       keyring
