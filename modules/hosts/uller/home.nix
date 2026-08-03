@@ -8,6 +8,7 @@
       niri
       noctalia
       mise
+      secretspec
     ];
 
     home.username = "tyler";
