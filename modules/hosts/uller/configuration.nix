@@ -42,5 +42,29 @@
     home-manager.users.tyler = self.homeModules.uller;
 
     custom.rebootToWindows.enable = true;
+
+    # Bulk storage, shared with Windows. Host-specific, so it lives here
+    # rather than in a feature -- and not in _hardware.nix, which
+    # nixos-generate-config regenerates.
+    #
+    # Deliberately NOT mounted:
+    #   sda1          ReFS Dev Drive -- unreadable from Linux, no free driver
+    #   nvme2n1p*     the Windows system disk and its ESP
+    #   nvme1n1p2     "Gjallar", Windows game installs
+    boot.supportedFilesystems = [ "ntfs" ];
+
+    fileSystems."/mnt/bulk" = {
+      device = "/dev/disk/by-uuid/706AFA166AF9D8B4";
+      fsType = "ntfs3";
+      options = [
+        "uid=1000"   # tyler
+        "gid=100"    # users
+        "umask=0022"
+        # nofail so a missing or dirty disk cannot drop the machine into
+        # emergency mode; automount defers it to first access.
+        "nofail"
+        "x-systemd.automount"
+      ];
+    };
   };
 }

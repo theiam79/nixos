@@ -6,15 +6,16 @@
   flake.nixosModules.keyring = { pkgs, ... }: {
     services.gnome.gnome-keyring.enable = true;
 
-    # PAM unlock at login: the token is then available all session with no
-    # prompts. ly's PAM service substacks `login` (see the nixpkgs ly module),
-    # so configuring `login` covers it -- unlike greetd, which does not
-    # include the login stack (nixpkgs#357201).
+    # PAM unlock at login, so the token is available all session with no
+    # prompts.
     #
-    # Verify after the first switch: `cat /etc/pam.d/ly` should show the
-    # gnome_keyring rules. If not, set
-    # security.pam.services.ly.enableGnomeKeyring = true directly.
+    # ly's PAM rules substack `login`, but that does NOT carry
+    # enableGnomeKeyring through -- verified on uller, where /etc/pam.d/ly had
+    # no gnome_keyring line with only `login` set. The ly service declares
+    # useDefaultRules = false, so it needs setting on the service itself.
+    # `login` stays set for console logins.
     security.pam.services.login.enableGnomeKeyring = true;
+    security.pam.services.ly.enableGnomeKeyring = true;
 
     # Prompter for Secret Service requests outside a full desktop session.
     environment.systemPackages = [ pkgs.gcr ];
