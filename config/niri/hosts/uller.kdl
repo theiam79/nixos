@@ -2,8 +2,32 @@
 // Symlinked to ~/.config/niri/host.kdl and included from config.kdl.
 // Editable in place: change, save, niri reloads. No rebuild needed.
 
-// Fill in after install — `niri msg outputs` prints the connector names.
-// output "DP-1" {
-//     mode "2560x1440@165.000"
-//     position x=0 y=0
-// }
+// Three monitors: centre in landscape, left and right rotated 90 degrees.
+//
+// Fill in the connector names and modes from `niri msg outputs`.
+//
+// Rotation swaps logical dimensions: a 2560x1440 output with transform "90"
+// occupies 1440 wide by 2560 tall in the coordinate space below, so x
+// positions accumulate using the ROTATED width.
+//
+// Example assuming three 2560x1440 panels:
+//   left   logical 1440 x 2560  at x=0
+//   centre logical 2560 x 1440  at x=1440, nudged down to centre it vertically
+//   right  logical 1440 x 2560  at x=4000   (1440 + 2560)
+
+/-output "DP-1" {
+    mode "2560x1440@165.000"
+    transform "90"
+    position x=0 y=0
+}
+
+/-output "DP-2" {
+    mode "2560x1440@165.000"
+    position x=1440 y=560
+}
+
+/-output "DP-3" {
+    mode "2560x1440@165.000"
+    transform "270"
+    position x=4000 y=0
+}
