@@ -23,6 +23,11 @@
 
       config = lib.mkIf cfg.enable {
         environment.systemPackages = [
+          # The wrapper below carries its own efibootmgr, but put it on PATH
+          # too: inspecting and reordering UEFI boot entries by hand is
+          # routine on a dual-boot machine.
+          pkgs.efibootmgr
+
           (pkgs.writeShellApplication {
             name = "reboot-to-windows";
             runtimeInputs = with pkgs; [ efibootmgr systemd ];
