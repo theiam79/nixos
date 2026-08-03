@@ -11,9 +11,14 @@
   # and would drift against the non-Nix WSL side of home-ops.
   #
   # Depends on the `keyring` NixOS feature for the Secret Service daemon and
-  # its PAM unlock. Per-machine provider selection is runtime state in
-  # ~/.config/secretspec/ -- run `secretspec config init` once and pick
-  # keyring; it is machine-specific, so it is not declared here.
+  # its PAM unlock -- secretspec's keyring provider talks to that same daemon.
+  #
+  # Per-machine setup is runtime state in ~/.config/secretspec/, so it is not
+  # declared here:
+  #
+  #   secretspec config global init      # pick the keyring provider (0.17+)
+  #   secretspec set BWS_ACCESS_TOKEN    # prompts, stores in the keyring
+  #   secretspec check                   # verify everything resolves
   flake.homeModules.secretspec = { pkgs, ... }: {
     home.packages = [ pkgs.secretspec ];
   };
