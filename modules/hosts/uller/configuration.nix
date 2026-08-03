@@ -13,6 +13,7 @@
       fonts
       audio
       unfree
+      zram
 
       niri
       firefox
